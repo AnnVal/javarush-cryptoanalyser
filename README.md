@@ -1,0 +1,2 @@
+# javarush-cryptoanalyser
+training project 
