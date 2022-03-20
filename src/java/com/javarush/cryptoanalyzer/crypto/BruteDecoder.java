@@ -1,7 +1,9 @@
 package com.javarush.cryptoanalyzer.crypto;
 
 import com.javarush.cryptoanalyzer.dialog.Dialog;
+import com.sun.media.jfxmedia.track.Track;
 
+import java.nio.charset.Charset;
 import java.util.Scanner;
 import java.nio.file.Files;
 import java.nio.file.*;
@@ -9,15 +11,14 @@ import java.io.*;
 import java.nio.file.StandardCopyOption;
 
 public class BruteDecoder {
-    //СЌС‚РѕС‚ РєР»Р°СЃСЃ-РІР·Р»РѕРјС‰РёРє Р±СѓРґРµС‚ СЃСЂР°Р±Р°С‚С‹РІР°С‚СЊ РЅР° РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ Р»РёС‚РµСЂР°С‚СѓСЂРЅС‹С… С‚РµРєСЃС‚Р°С…, С‚.Рє.
-    //РѕСЂРёРµРЅС‚РёСЂСѓРµС‚СЃСЏ РЅР° СЂР°СЃСЃС‚Р°РЅРѕРІРєСѓ Р·РЅР°РєРѕРІ РїСѓРЅРєС‚СѓР°С†РёРё
-    private static final String unpossibleStarts = ",:!?)";
-    private static final String possibleEndings = ".\"!?):В»";
-    private static final String unpossibleEndings = ",(-В«";
+    //этот класс-взломщик будет срабатывать на относительно литературных текстах, т.к.
+    //ориентируется на расстановку знаков пунктуации
+    private static final String unpossibleStarts = ",:!?";
+    private static final String possibleEndings = ".\"!?:»";
+    private static final String unpossibleEndings = ",-«";
 
     private static boolean startMakesSense(String str) {
         String start = str.substring(0, 1);
-        String ending = str.substring(str.length() - 1);
         return !unpossibleStarts.contains(start);
     }
 
@@ -38,11 +39,11 @@ public class BruteDecoder {
                 String str = scanner.nextLine();
                 makesSense = startMakesSense(str);
                 makesSense &= !endingDoesntMakesSense(str);
-                if (scanner.hasNextLine())//РїСЂРёРЅРёРјР°СЏ РІРѕ РІРЅРёРјР°РЅРёРµ, С‡С‚Рѕ С€РёС„СЂСѓСЋС‚ С‡Р°СЃС‚Рѕ РїРёСЃСЊРјР°
-                    // С‚Рѕ РїРѕСЃР»РµРґРЅСЏСЏ СЃС‚СЂРѕРєР°-С‡Р°СЃС‚Рѕ РїРѕРґРїРёСЃСЊ, РєРѕС‚РѕСЂР°СЏ РЅРµ РїРѕРґС‡РёРЅСЏРµС‚СЃСЏ РІС‹Р±СЂР°РЅРЅС‹Рј РїСЂР°РІРёР»Р°Рј РїСѓРЅРєС‚СѓР°С†РёРё
-                    // РёРјРµРЅРЅРѕ СЌС‚Р° С‡Р°СЃС‚СЊ РїСЂРѕРІРµСЂРєРё РјРѕР¶РµРј РІС‹Р·С‹РІР°С‚СЊ РїСЂРѕР±Р»РµРјС‹, РїРѕС‚РѕРјСѓ С‡С‚Рѕ РїРѕСЃР»Рµ РїРѕРґРёРїРёСЃРё РІ С„Р°Р№Р»Рµ
-                    // С‡Р°СЃС‚Рѕ РѕРєР°Р·С‹РІР°РµС‚СЃСЏ РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР° Рё С‚РѕРіРґР° СЃС‚СЂРѕРєР° СЃ РїРѕРґРїРёСЃСЊСЋ РЅРµРІР°Р»РёРґРЅР°
-                    //РїРѕРєР° РІ РёРЅСЃС‚СЂСѓРєС†РёРё РїСЂРµРґР»Р°РіР°СЋ РїСЂРѕРІРµСЂСЏС‚СЊ РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ РІ РєРѕРЅС†С†Рµ Рё СѓР±РёСЂР°С‚СЊ РµРµ РІСЂСѓС‡РЅСѓСЋ
+                if (scanner.hasNextLine())//принимая во внимание, что шифруют часто письма
+                    // то последняя строка-часто подпись, которая не подчиняется выбранным правилам пунктуации
+                    // именно эта часть проверки можем вызывать проблемы, потому что после подиписи в файле
+                    // часто оказывается пустая строка и тогда строка с подписью невалидна
+                    //пока в инструкции предлагаю проверять пустую строку в концце и убирать ее вручную
                     makesSense &= endingMakesSense(str);
                 if (!makesSense)
                     return makesSense;
@@ -50,17 +51,23 @@ public class BruteDecoder {
 
         } catch (IOException e) {
             e.printStackTrace();
-            //РІСЃРµ С‚Р° Р¶Рµ РїСЂРѕР±Р»РµРјР° Р»РѕРіРіРёСЂРѕРІР°РЅРёСЏ, РїРѕСЃС‚Р°СЂР°СЋСЃСЊ РёСЃРїСЂР°РІРёС‚СЊ РїРѕСЃР»Рµ РїСЂРѕРІРµСЂРєРё РЅР° 2Р№ РёС‚РµСЂР°С†РёРё
+            //все та же проблема логгирования, постараюсь исправить после проверки на 2й итерации
         }
         return makesSense;
     }
 
     public void crack(String fileName) throws IOException {
         String decodedFileName = FileCoder.getDecodedFilename(fileName);
-        for (int i = 0; i < CharCoder.alphabetLength; i++) { //РЅР°С‡РёРЅР°СЋ СЃ РЅСѓР»СЏ РЅР° СЃР»СѓС‡Р°Р№, РµСЃР»Рё С„Р°Р№Р» РЅРµ Р·Р°С€РёС„СЂРѕРІР°РЅ:)
+        for (int i = 0; i < CharCoder.alphabetLength; i++) { //начинаю с нуля на случай, если файл не зашифрован:)
             new FileCoder(fileName, i).decodeFileToOtherFile();
             if (fileMakesSence(decodedFileName)) {
-                System.out.println(Files.readAllLines(Paths.get(decodedFileName)).get(0));
+                System.out.println(Files.readAllLines(Paths.get(decodedFileName), Charset.forName("windows-1251")).get(0));
+                //кодировки-это ужасно! сначала все работало из Идеи и без указания кодировки
+                //потом не работало из консоли из-за кодировки
+                // я поменяла кодировки в Идее, но они не заработади, даже когда я все вернула как было
+                //теперь работает только с указанием кодировке  в строке 64 при чтении файла
+                //магии не бывает, но что-то не очень понятное все равно происходит=(
+                //извините, кажется, я нытик, остальные с ними,видимо, легко разобрались,судя по отсутвию вопросов
                 String answer = Dialog.askUserAboutStringSense();
                 if ("y".equalsIgnoreCase(answer)) {
                     Files.move(Paths.get(decodedFileName), Paths.get(fileName), StandardCopyOption.REPLACE_EXISTING);
@@ -69,6 +76,7 @@ public class BruteDecoder {
                 }
             }
         }
+        System.out.println("Unfortunately we were not able to crack the cipher");
     }
 
 

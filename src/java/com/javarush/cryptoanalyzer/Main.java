@@ -24,7 +24,10 @@ public class Main {
                 }
                 catch (IOException e){
                     e.printStackTrace();
+                    System.out.println("IOException during cracking");
                 }
         }
     }
+
+   // "C:\\Users\\user\\IdeaProjects\\javarush-cryptoanalyser\\src\\java\\com\\javarush\\cryptoanalyzer\\dialog\\test.txt";
 }
