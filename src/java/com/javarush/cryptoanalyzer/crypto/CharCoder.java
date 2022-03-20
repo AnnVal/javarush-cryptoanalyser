@@ -12,10 +12,10 @@ public class CharCoder {
 
     private char[] decodingAlphabet;
     private int key;
-    static final int alphabetLength = LOWER_ALPHABET.length; //длина алфавита нам понадобиться при взломе
+    static final int ALPHABET_LENGTH = LOWER_ALPHABET.length; //длина алфавита нам понадобиться при взломе
 
     public CharCoder(int key) {
-        this.key = key % alphabetLength;  //поскольку неважно,сколько раз алфавит поместится в ключе,
+        this.key = key % ALPHABET_LENGTH;  //поскольку неважно,сколько раз алфавит поместится в ключе,
         // то мы сохраняем только значащую часть ключа
     }
 
@@ -43,7 +43,7 @@ public class CharCoder {
             }
 
         } else {
-            index = (index + key) % alphabetLength;
+            index = (index + key) % ALPHABET_LENGTH;
             return decodingAlphabet[index];
         }
     }
@@ -64,7 +64,7 @@ public class CharCoder {
             }
 
         } else {
-            index = (index - key) >= 0 ? (index - key) : alphabetLength + index - key;
+            index = (index - key) >= 0 ? (index - key) : ALPHABET_LENGTH + index - key;
             return decodingAlphabet[index];
         }
 

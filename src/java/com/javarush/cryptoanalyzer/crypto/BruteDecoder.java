@@ -1,7 +1,6 @@
 package com.javarush.cryptoanalyzer.crypto;
 
 import com.javarush.cryptoanalyzer.dialog.Dialog;
-import com.sun.media.jfxmedia.track.Track;
 
 import java.nio.charset.Charset;
 import java.util.Scanner;
@@ -58,7 +57,7 @@ public class BruteDecoder {
 
     public void crack(String fileName) throws IOException {
         String decodedFileName = FileCoder.getDecodedFilename(fileName);
-        for (int i = 0; i < CharCoder.alphabetLength; i++) { //начинаю с нуля на случай, если файл не зашифрован:)
+        for (int i = 0; i < CharCoder.ALPHABET_LENGTH; i++) { //начинаю с нуля на случай, если файл не зашифрован:)
             new FileCoder(fileName, i).decodeFileToOtherFile();
             if (fileMakesSence(decodedFileName)) {
                 System.out.println(Files.readAllLines(Paths.get(decodedFileName), Charset.forName("windows-1251")).get(0));
@@ -75,7 +74,7 @@ public class BruteDecoder {
                     break;
                 }
             }
-            if(i==CharCoder.alphabetLength-1) System.out.println("Unfortunately we were not able to crack the cipher");
+            if(i==CharCoder.ALPHABET_LENGTH -1) System.out.println("Unfortunately we were not able to crack the cipher");
         }
 
     }
