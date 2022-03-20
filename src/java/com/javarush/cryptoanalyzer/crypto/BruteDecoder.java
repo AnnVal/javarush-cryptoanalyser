@@ -75,8 +75,9 @@ public class BruteDecoder {
                     break;
                 }
             }
+            if(i==CharCoder.alphabetLength-1) System.out.println("Unfortunately we were not able to crack the cipher");
         }
-        System.out.println("Unfortunately we were not able to crack the cipher");
+
     }
 
 
