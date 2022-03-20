@@ -40,7 +40,7 @@ public class Dialog {
 
     public static int askOperation() {
         System.out.println("choose an operation: 1 - encode/2 - decode/3-crack (for 1 or 2 you should know the key)");
-        int action = scanner.nextInt();
+        int action = intScanner.nextInt();
         if (action == 1 || action == 2 || action == 3) {
             return action;
         } else {

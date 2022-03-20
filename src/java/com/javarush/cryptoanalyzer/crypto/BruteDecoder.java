@@ -10,7 +10,7 @@ import java.nio.file.StandardCopyOption;
 
 public class BruteDecoder {
     private static final String unpossibleStarts = ",:!?)";
-    private static final String possibleEndings = ".\"!?):";
+    private static final String possibleEndings = ".\"!?):»";
     private static final String unpossibleEndings = ",(-«";
 
     private static boolean startMakesSense(String str) {
@@ -62,7 +62,6 @@ public class BruteDecoder {
                     break;
                 }
             }
-
         }
     }
 
