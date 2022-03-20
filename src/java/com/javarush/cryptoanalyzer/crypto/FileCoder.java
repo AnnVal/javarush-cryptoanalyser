@@ -30,6 +30,8 @@ public class FileCoder {
 
         } catch (IOException e) {
             e.printStackTrace();
+            //извините, я помню что e.printStackTrace()- нехорошая система, но мы пока не разбирали как это делать
+            //а я боюсь закопаться, изобретая свою систему,постараюсь исправить на 2й итерации
         }
 
 
@@ -54,7 +56,10 @@ public class FileCoder {
 
     }
 
-
+    //метод, который пригодиться при взломе,чтобы не менять исходный файл, пока не дешифруем
+    // если бы была задача определить ключ, то,расшифровывая в отдельный файл,
+    // мы всегда можем сказать значение итератора-ключа, при котором расшифровка была успешной
+    // а если бы прибывляли по 1 к ключу и каждый раз меняли исходный файл, то прилось бы подсчитывать и ключ=)
     public void decodeFileToOtherFile() {
         String decodedFileName = getDecodedFilename(fileName);
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -73,7 +78,7 @@ public class FileCoder {
             e.printStackTrace();
         }
     }
-
+    //имя промежуточного файла понадобится при взломе, поэтому вынесено в отдельный метод
     public static String getDecodedFilename(String fileName) {
         int index = fileName.lastIndexOf('.');
         return fileName.substring(0, index) + "_decoded" + fileName.substring(index);

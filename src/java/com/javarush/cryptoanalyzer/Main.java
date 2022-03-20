@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello! This is a small programm for file encoding or decoding by Caesar's cifher\n" +
+        System.out.println("Hello! This is a small programme for file encoding or decoding by Caesar's cipher\n" +
                 "Pay attention:your file will be replaced by the resulting one! ");
         String fileName = Dialog.askFileName();
         switch(Dialog.askOperation()) {

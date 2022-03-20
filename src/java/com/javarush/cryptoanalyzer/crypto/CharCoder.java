@@ -12,7 +12,7 @@ public class CharCoder {
 
     private char[] decodingAlphabet;
     private int key;
-    public static int alphabetLength = LOWER_ALPHABET.length;
+    static final int alphabetLength = LOWER_ALPHABET.length; //длина алфавита нам понадобиться при взломе
 
     public CharCoder(int key) {
         this.key = key % alphabetLength;  //поскольку неважно,сколько раз алфавит поместится в ключе,
@@ -31,6 +31,7 @@ public class CharCoder {
         int index = Arrays.binarySearch(decodingAlphabet, charToEncode);
         if (index < 0) {
             switch (charToEncode) {
+                //для корректного разбиения кодируемого файла на строки знаки переноса и фформатирования лучше сохранять
                 case '\n':
                     return '\n';
                 case '\r':

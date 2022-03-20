@@ -24,4 +24,7 @@ public class StringCoder {
         }
         return String.valueOf(chars);
     }
+    // логика методов encodeString и decodeString очень похожа,
+    // отличается только методом, который вызывается у charCoder,
+    // но я не придумала как не повторятс, не иобретая флаги-переключатели :(
 }
