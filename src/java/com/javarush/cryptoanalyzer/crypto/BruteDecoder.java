@@ -10,8 +10,7 @@ import java.io.*;
 import java.nio.file.StandardCopyOption;
 
 public class BruteDecoder {
-    //этот класс-взломщик будет срабатывать на относительно литературных текстах, т.к.
-    //ориентируетс€ на расстановку знаков пунктуации
+    //cracking is possibble only for texts with proper punctuation
     private static final String unpossibleStarts = ",:!?";
     private static final String possibleEndings = ".\"!?:ї";
     private static final String unpossibleEndings = ",-Ђ";
@@ -38,11 +37,9 @@ public class BruteDecoder {
                 String str = scanner.nextLine();
                 makesSense = startMakesSense(str);
                 makesSense &= !endingDoesntMakesSense(str);
-                if (scanner.hasNextLine())//принима€ во внимание, что шифруют часто письма
-                    // то последн€€ строка-часто подпись, котора€ не подчин€етс€ выбранным правилам пунктуации
-                    // именно эта часть проверки можем вызывать проблемы, потому что после подиписи в файле
-                    // часто оказываетс€ пуста€ строка и тогда строка с подписью невалидна
-                    //пока в инструкции предлагаю провер€ть пустую строку в концце и убирать ее вручную
+                if (scanner.hasNextLine())//accordind that most things to be decoded are  letters
+                    //the last string is assumed to be a signature
+                    //the problem is that it should be really last? the empty stringg after breaks the algorithm
                     makesSense &= endingMakesSense(str);
                 if (!makesSense)
                     return makesSense;
@@ -50,23 +47,24 @@ public class BruteDecoder {
 
         } catch (IOException e) {
             e.printStackTrace();
-            //все та же проблема логгировани€, постараюсь исправить после проверки на 2й итерации
+            //sorry, i'ii try improve logging problems at next iteration
         }
         return makesSense;
     }
 
     public void crack(String fileName) throws IOException {
         String decodedFileName = FileCoder.getDecodedFilename(fileName);
-        for (int i = 0; i < CharCoder.ALPHABET_LENGTH; i++) { //начинаю с нул€ на случай, если файл не зашифрован:)
+        for (int i = 0; i < CharCoder.ALPHABET_LENGTH; i++) { //in case file is not encoded=)
             new FileCoder(fileName, i).decodeFileToOtherFile();
             if (fileMakesSence(decodedFileName)) {
                 System.out.println(Files.readAllLines(Paths.get(decodedFileName), Charset.forName("windows-1251")).get(0));
-                //кодировки-это ужасно! сначала все работало из »деи и без указани€ кодировки
-                //потом не работало из консоли из-за кодировки
-                // € помен€ла кодировки в »дее, но они не заработади, даже когда € все вернула как было
-                //теперь работает только с указанием кодировке  в строке 64 при чтении файла
-                //магии не бывает, но что-то не очень пон€тное все равно происходит=(
-                //извините, кажетс€, € нытик, остальные с ними,видимо, легко разобрались,суд€ по отсутвию вопросов
+                //i got a lot of problems with encoding
+                //at the beginning it worked ok without selecting a charset,
+                // but problems started when the programme was executed from console
+                // i changed encoding in IntelIdea, it didn't helped, i changed but all was broket
+                // the only thing that helped was to select Charset in code
+                //actually,i don't really understand why...
+
                 String answer = Dialog.askUserAboutStringSense();
                 if ("y".equalsIgnoreCase(answer)) {
                     Files.move(Paths.get(decodedFileName), Paths.get(fileName), StandardCopyOption.REPLACE_EXISTING);

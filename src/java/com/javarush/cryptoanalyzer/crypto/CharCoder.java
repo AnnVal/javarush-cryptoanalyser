@@ -3,7 +3,7 @@ package com.javarush.cryptoanalyzer.crypto;
 import java.util.Arrays;
 
 public class CharCoder {
-    //расположение символов упорядоченное по значению, чтобы  работал бинарный поиск
+    //chars sequence is in natural order for working binary search
     private static final char[] LOWER_ALPHABET = {' ', '!', '"', '\'', ',', '.', ':', '?', '«', '»', 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з',
             'и', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ',
             'ъ', 'ы', 'ь', 'э', 'ю', 'я'};
@@ -16,8 +16,8 @@ public class CharCoder {
 
 
     public CharCoder(int key) {
-        this.key = key % ALPHABET_LENGTH;  //поскольку неважно,сколько раз алфавит поместится в ключе,
-        // то мы сохраняем только значащую часть ключа
+        this.key = key % ALPHABET_LENGTH;  //we leave onle meaning part of key
+
     }
 
     public void indentifyDecodingAlphabet(char charToEncode) {
@@ -32,7 +32,7 @@ public class CharCoder {
         int index = Arrays.binarySearch(decodingAlphabet, charToEncode);
         if (index < 0) {
             switch (charToEncode) {
-                //для корректного разбиения кодируемого файла на строки знаки переноса и фформатирования лучше сохранять
+                //for proper division out text to strings
                 case '\n':
                     return '\n';
                 case '\r':
@@ -70,8 +70,8 @@ public class CharCoder {
         }
 
 
-        //ВОПРОС: объединения фенкций кодирования/декодирования символа не будет нарушением принципа Single Responsibility?
-        //Интуитивно мне кажется, что это настолько близкие функции, что их логично объединить в одном классе. А как Вы думаете?
+        //Question: my class is codind and decoding at the same tame. Does is violate Single Responsibility principle?
+        //As for me, this functions are very close and it is resonable to keep them in the same class
 
     }
 }

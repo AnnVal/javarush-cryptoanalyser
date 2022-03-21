@@ -5,8 +5,7 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Dialog {
-    //используем разные сканнеры для инт и строк, чтобы избежать попадания в строковый сканер пустой строки,
-    // оставшей после введения числа
+    //i"m using different scanners for ints and strings to avoid reading empty string after reading ints
     public static Scanner scanner = new Scanner(System.in);
     public static Scanner intScanner = new Scanner(System.in);
 
