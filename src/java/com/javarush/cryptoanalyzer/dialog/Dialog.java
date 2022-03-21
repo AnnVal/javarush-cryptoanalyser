@@ -11,8 +11,10 @@ public class Dialog {
     public static Scanner intScanner = new Scanner(System.in);
 
     public static String askUserAboutStringSense() {
-        System.out.println("Check the string above. Does it make sense? enter y/n");
+        System.out.println("Check the string above. Does it make sense? enter y/n or \"exit\" to quit");
         String answer = scanner.nextLine();
+        if ("exit".equalsIgnoreCase(answer))
+            System.exit(0);
         if ("y".equalsIgnoreCase(answer) || "n".equalsIgnoreCase(answer))
             return answer;
         else
@@ -21,8 +23,10 @@ public class Dialog {
     }
 
     public static String askFileName() {
-        System.out.println("Enter full file path for encodind or decoding");
+        System.out.println("Enter full file path for encodind or decoding or \"exit\" to quit");
         String fileName = scanner.nextLine();
+        if("exit".equalsIgnoreCase(fileName))
+            System.exit(0);
         if (Files.notExists(Paths.get(fileName))) {
             System.out.printf("File witn name %s doesn't exist.Try again.\n", fileName);
             askFileName();
@@ -41,8 +45,10 @@ public class Dialog {
     }
 
     public static int askOperation() {
-        System.out.println("choose an operation: 1 - encode/2 - decode/3-crack (for 1 or 2 you should know the key)");
+        System.out.println("choose an operation: 1 - encode/2 - decode/3-crack/4-exit (for 1 or 2 you should know the key)");
         int action = intScanner.nextInt();
+        if (action==4)
+            System.exit(0);
         if (action == 1 || action == 2 || action == 3) {
             return action;
         } else {
