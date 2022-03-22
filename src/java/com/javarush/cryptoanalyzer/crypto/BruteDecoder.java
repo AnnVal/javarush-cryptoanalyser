@@ -39,15 +39,15 @@ public class BruteDecoder {
                 makesSense &= !endingDoesntMakesSense(str);
                 if (scanner.hasNextLine())//accordind that most things to be decoded are  letters
                     //the last string is assumed to be a signature
-                    //the problem is that it should be really last? the empty stringg after breaks the algorithm
+                    //the problem is that it should be really last? the empty string after breaks the algorithm
                     makesSense &= endingMakesSense(str);
                 if (!makesSense)
                     return makesSense;
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
-            //sorry, i'ii try improve logging problems at next iteration
+            System.out.println("There are some problems with access to file " + fileName);
+            System.err.println("Caught an exception" + e);
         }
         return makesSense;
     }
@@ -64,7 +64,6 @@ public class BruteDecoder {
                 // i changed encoding in IntelIdea, it didn't helped, i changed but all was broket
                 // the only thing that helped was to select Charset in code
                 //actually,i don't really understand why...
-
                 String answer = Dialog.askUserAboutStringSense();
                 if ("y".equalsIgnoreCase(answer)) {
                     Files.move(Paths.get(decodedFileName), Paths.get(fileName), StandardCopyOption.REPLACE_EXISTING);
@@ -72,10 +71,8 @@ public class BruteDecoder {
                     break;
                 }
             }
-            if(i==CharCoder.ALPHABET_LENGTH -1) System.out.println("Unfortunately we were not able to crack the cipher");
+            if(i==CharCoder.ALPHABET_LENGTH -1)
+                System.out.println("Unfortunately we were not able to crack the cipher");
         }
-
     }
-
-
 }

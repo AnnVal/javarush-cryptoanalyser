@@ -10,13 +10,13 @@ public class CharCoder {
     private static final char[] UPPER_ALPHABET = {' ', '!', '"', '\'', ',', '.', ':', '?', '«', '»', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З',
             'И', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ',
             'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я',};
-    static final int ALPHABET_LENGTH = LOWER_ALPHABET.length; //длина алфавита нам понадобиться при взломе
+    static final int ALPHABET_LENGTH = LOWER_ALPHABET.length;
     private char[] decodingAlphabet;
     private int key;
 
 
     public CharCoder(int key) {
-        this.key = key % ALPHABET_LENGTH;  //we leave onle meaning part of key
+        this.key = key % ALPHABET_LENGTH;  //we leave only meaning part of key
 
     }
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileCoder {
+    public static final String SUFFIX_FOR_DECODED_FILES = "_decoded";
     private String fileName;
     private int key;
     private StringCoder stringCoder;
@@ -29,10 +30,8 @@ public class FileCoder {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
-            //Sorry, i remember of doing that way is bad practice
-            //the other way, we are working in console so we would see the stacktrace if the problem occurs
-            // i'll try to fix logging in next iteration
+            System.out.println("There are some problems with access to file " + fileName);
+            System.err.println("Caught an exception" + e);
         }
 
 
@@ -52,12 +51,13 @@ public class FileCoder {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("There are some problems with access to file " + fileName);
+            System.err.println("Caught an exception" + e);
         }
 
     }
 
-    //this function will be helpfull during cracking, not to change native file bofore decoding
+    //this function will be helpful during cracking, not to change native file before decoding
     public void decodeFileToOtherFile() {
         String decodedFileName = getDecodedFilename(fileName);
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -73,13 +73,15 @@ public class FileCoder {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("There are some problems with access to file " + fileName + "or" + decodedFileName);
+            System.err.println("Caught an exception" + e);
         }
     }
+
     //we'll need the intermediate file name during cracking
     public static String getDecodedFilename(String fileName) {
         int index = fileName.lastIndexOf('.');
-        return fileName.substring(0, index) + "_decoded" + fileName.substring(index);
+        return fileName.substring(0, index) + SUFFIX_FOR_DECODED_FILES + fileName.substring(index);
     }
 
 }
