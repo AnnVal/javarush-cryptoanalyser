@@ -1,8 +1,11 @@
 # Compiled class file
 *.class
-
+target/
+*.iml
+.idea/
 # Log file
 *.log
+*.txt
 
 # BlueJ files
 *.ctxt
@@ -11,7 +14,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+
 *.war
 *.nar
 *.ear
